@@ -1,0 +1,15 @@
+version: '2'
+
+services:
+  dev_interpreter:
+    container_name: project_foo_dev
+    command: /bin/bash
+    image: project_foo:latest
+    volumes:
+      - ~/Datasets:/Datasets:ro
+      - ~/Project_Foo/src:/app
+      - ~/Job_123_Scratch:/scratch
+    environment:
+      - Dataset_Dir=/Datasets
+      - Src_Dir=/app
+      - Scratch_Dir=/scratch

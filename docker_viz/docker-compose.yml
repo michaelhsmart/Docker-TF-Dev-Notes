@@ -1,0 +1,14 @@
+version: '2'
+
+services:
+  viz_service:
+    build: .
+    container_name: project_viz
+    network_mode: "host"
+    command: /bin/bash
+    volumes:
+      - $XAUTH:$XAUTH:rw
+    environment:
+      - DISPLAY
+      - XAUTHORITY=$XAUTH
+      - QT_X11_NO_MITSHM=1
