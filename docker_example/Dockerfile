@@ -34,5 +34,5 @@ ARG build_gid=1000
 ARG build_username=devuser
 
 RUN groupadd -g ${build_gid} ${build_username} && \
-    useradd -r -u ${build_uid} -g ${build_gid} ${build_username}
+    useradd -r -m -u ${build_uid} -g ${build_gid} ${build_username}
 USER ${build_username}

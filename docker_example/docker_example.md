@@ -175,7 +175,7 @@ It is also possible to specify the container's user in a
 For example:
 ```
 # Rest of dockerfile as above
-RUN useradd -r -u 1000 -g 1000 devuser devuser
+RUN useradd -r -m -u 1000 -g 1000 devuser devuser
 USER devuser
 ```
 which would save you from needing to specify the `-u` argument for docker run,
