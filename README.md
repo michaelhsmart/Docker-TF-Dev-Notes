@@ -12,6 +12,9 @@ projects/pipelines with docker and tensorflow, jupyter etc:
   by default)
 - `docker_pycharm/` contains an example and references for using Pycharm for
   development, but having the iterpreter reside within a docker containers
+  
+It also contains some short docs covering some areas of interest of recommended
+tools: `docker.md` briefly covers Docker.
 
 # README
 
