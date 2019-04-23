@@ -90,3 +90,7 @@ relevant Dockerfile or docker-compose.yml files to your own projects. They could
 then be contained within your project's version control. In that case, you may
 want to change some of the hardcoded options to environment variables so that
 your setup is more portable.
+
+## License
+
+See the accompanying LICENSE file.
