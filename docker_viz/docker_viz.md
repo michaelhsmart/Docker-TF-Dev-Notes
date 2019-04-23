@@ -72,7 +72,7 @@ follow your cursor around.
 
 If you regularly want to use a common image and display configuration, you could
 consider adding `$XAUTH` to your `.bashrc` so that you don't need to constantly
-re-create/export it.
+re-create/export it for use with your containers.
 
 ## Resources
 
@@ -93,7 +93,7 @@ well out-of-scope here but is still neat to know about.
 The typical idea with docker is that each container will host ONE app. Running
 GUI apps within a developer context within a container leads to the very obvious
 question of "Can I just put my IDE in a container?". The answer to this is yes,
-but you would then have severasl processes in the container and you might as well
+but you would then have several processes in the container and you might as well
 consider using a full VM instead as docker isn't designed with this in mind.
 
 Instead of directly using the display, many apps use port forwarding to achieve
@@ -102,9 +102,8 @@ example. That example starts JuPyter and forwards the appropriate port to the
 host so that you can then effectively work with a GUI via your browser.
 
 In this same vein, a better way to get your IDE working against the container
-environment, as supported by PyCharm, is to have the IDE's python interpreter
-executable point to the interpreter within a container environment. That is
-covered in the docker_pycharm example.
+environment, as supported by PyCharm, is to have the IDEpoint to the interpreter
+within a container environment. That is covered in the docker_pycharm example.
 
 ## Known Issues
 

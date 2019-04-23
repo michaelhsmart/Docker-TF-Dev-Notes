@@ -49,7 +49,7 @@ favourites):
 - [Docker Compose in 12 Minutes](https://www.youtube.com/watch?v=Qw9zlE3t8Ko)
 
 Or a longer/slower course:
-- [HotToCode's Docker Course](https://www.youtube.com/watch?v=tmyFd1PD-Gs)
+- [HowToCode's Docker Course](https://www.youtube.com/watch?v=tmyFd1PD-Gs)
 
 ## [nvidia-docker](https://github.com/NVIDIA/nvidia-docker)
 
@@ -126,15 +126,15 @@ likely some places where that will be appropriate. They're trying to do two
 separate things.
 
 The main mechanism behind `virtualenv` is to just recognize that most of the
-potential problems with package conflicts come from the `PATH` and `PYTHONHOME`
-environment variables. If you manage these variables properly, then you can make
-sure that your applications are looking in the desired place for the interpreter
-and  dependencies that they need. The other dependency versions may still be on
-your machine, but adjusting these environment variables prevents your
-application from finding them. On the other hand, the Docker approach to this
-problem creates an OS virtualization that only has the desired versions in it in
-the first place so that the application observes no version conflicts. Further,
-Docker's isolation goal separates much more than just the application
+potential problems with package conflicts flow through the `PATH` and
+`PYTHONHOME` environment variables. If you manage these variables properly, then
+you can manipulate applications to looking in the desired place for the
+interpreter and  dependencies that they need. The other dependency versions may
+still be on your machine, but adjusting these environment variables prevents
+your application from finding them. On the other hand, the Docker approach to
+this problem creates a virtualization that only has the desired versions in the
+first place so that there is no undesired version for the application to find.
+Further, Docker's isolation goal separates much more than just the application
 dependencies. You could still thoroughly wreck your setup from within an
 activated virtualenv, whereas the host machine has much more protection from
 code within a docker container. Docker's isolation of the Python environment is
@@ -143,3 +143,19 @@ simply a consequence of its larger aim to isolate pretty well everything.
 I find this article useful for distinguishing the two through the case where one
 may wish to use a `virtualenv` within a docker container:
 https://pythonspeed.com/articles/activate-virtualenv-dockerfile/
+
+### Warning: Delete Your Containers / Monitor Docker's Space Consumption
+
+A key aspect of docker's ideology is that containers should be ephemeral and
+should support being deleted/recreated at will - meaning that they do not store
+persistent state internally. It's common to use the `--rm` argument with `docker
+run` to reflect this: it deletes the container after the process ends. You would
+then create a new fresh container from the built image the next time you run the
+desired docker command. This "always fresh" idea is central to the docker ethos.
+If you forget the `--rm` option, or if you decide to re-use containers, be aware
+that the number of containers stored on your machine may grow and may take up
+considerable memory if you never flush them out. The commands: `docker container
+purge` and `docker image purge` can remove outdated containers and images from
+your system. If they're insufficiently effective for you, you can google other
+ways to clean it out. Just be aware of this as a thing and periodically check
+your docker space consumption.

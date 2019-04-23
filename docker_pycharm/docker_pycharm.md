@@ -46,22 +46,23 @@ in the current shell session (you could add them to your .bashrc).
   configs or even the host's PyCharm installation itself, but I won't venture
   there
 
-## Options 2 Setting the PyCharm Interpreter
+## Option 2 Setting the PyCharm Interpreter (Much Better)
 
 By default, PyCharm uses its own internally managed `python` interpreter, which
 may not play well with your local machine's default versions and virtual
-environments depending on your application. Fortunately, PyCharm allows you to
-resolve this issue by specifying the python interpreter you wish it to use.
+environments depending on your application. Fortunately, PyCharm Professional
+allows you to resolve this issue by specifying the python interpreter you wish
+it to use.
 
 Relative to Docker, you can either point to an existing (already built) docker
 image, or to a docker-compose file.
 
 - Image: https://www.jetbrains.com/help/pycharm/using-docker-as-a-remote-interpreter.html
-- Compose: https://www.jetbrains.com/help/pycharm/using-docker-compose-as-a-remote-interpreter.html
+- ~~Compose: https://www.jetbrains.com/help/pycharm/using-docker-compose-as-a-remote-interpreter.html~~
 
 **TODO**: I have not yet managed to get the combination of PyCharm +
-docker-compose + nvidia-docker working. If you try and get it working let me
-know.
+docker-compose + nvidia-docker's runtime working. If you try and can get it
+working, please let me know.
 
 **NOTE**: When PyCharm initially connects against a remote interpreter, it has
 to run through its full skeleton of static analysis against that interpreter.
@@ -70,17 +71,16 @@ run/debug configuration is not changed.
 
 ### Initial Advice
 
-I strongly recommend you debug your dockerfile config files directly before
-moving on to using them to host the remote interpreter for PyCharm. Docker
+I strongly recommend you debug your Docker environment directly before
+moving on to using it to host the remote interpreter for PyCharm. Docker
 problems are much harder to deal with through PyCharm than directly.
 
 ### Dockerfile
 
 This example uses the files in the subdirectory `example_2`.
 
-After building this image with `docker build . -t docker_pycharm:latest`:
-
-1. Create a an empty project folder ~/Project
+0. Build this image with `docker build . -t docker_pycharm:latest`:
+1. Create a an empty project folder ~/Project_Foo
 2. Open PyCharm and open that folder as an existing project. NOTE: There is
 currently a PyCharm limitation that prevents creating a new project specifically
 against a new Docker Interpreter:
@@ -94,7 +94,7 @@ print(sess.run(hello))
 ```
 
 You should notice PyCharm complaining about not having the appropriate packages
-when you run `bar.py`.
+when you run `bar.py` (assuming you don't have a native installation).
 ```
 /usr/bin/python3.5 /home/msmart/Project_Foo/bar.py
 Traceback (most recent call last):
@@ -147,7 +147,8 @@ run`, including the ones used for display binding.
 
 Note that you won't need to mount the project's source directory explicitly as
 PyCharm will mount the source directory automatically so that the container's
-python interpreter will be able to run/debug the code.
+python interpreter will be able to run/debug the code. Of course, you can modify
+the mounted location from `/opt/project/` if you want.
 
 Let's extend the `bar.py` script to load and show an image from the KITTI object
 dataset, which I have locally at `~/Datasets/KITTI/object`
@@ -163,13 +164,15 @@ covered in the `docker_viz` example.
 
 We'll also need to set a bunch of environment Variables:
 * `QT_X11_NO_MITSHM=1`
-* `DISPLAY=:0`
+* `DISPLAY=:0` - or to whatever `echo $DISPLAY` gives you
 * `XAUTHORITY=/tmp/.docker.xauth`
-* `DATASET_DIR=/Datasets`
+* `DATASET_DIR=/Datasets` so that within the container, `$DATASET_DIR` will
+give the location of the datasets folder.
 
-and set the network to host. Note that if we wanted our project to be able to
-output artifacts (like network weights) we could mount a specific directory for
-them to be placed and indicate it to the container with an environment variable.
+We then set the network to host. Note that if we wanted our project to be able
+to output artifacts (like network weights) we could mount a specific directory
+for them to be placed and indicate it to the container with an environment
+variable.
 
 Then, if you update `bar.py` as follows, you should be able to run it from
 PyCharm against the container and see an image on your host machine!
@@ -201,3 +204,12 @@ you could then share/copy the config as needed.
 
 See the accompanying image for what the PyCharm docker container config looks
 like.
+
+## Version Control Your Dockerfile
+
+In this example, I just used the included Dockerfile and gave the image an
+arbitrary `docker_pycharm:latest` tag. You should consider adding a
+version-controlled Dockerfile to your project that can then be shared for both
+development and deployment. You could build and tag the image via an install
+script. So long as the user has nvidia-docker set up with the supporting driver
+version, setup could be both one-line and much safer!

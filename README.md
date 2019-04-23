@@ -27,19 +27,19 @@ phases.
 #### Early Experimentation
 
 In early experimentation, maybe you want to throw together ~100 lines of Python
-in a single session and see what happens. The main concerns here are that the
-tooling is lightweight but also light in impact. You don't want anything you
-hack together to affect any of your longer-term work or force you to reinstall
-anything later on.
+in a single session and see what happens, or test out a new library. The main
+concerns here are that the tooling is lightweight but also light in impact. You
+don't want anything you hack together to affect any of your longer-term work or
+force you to reinstall anything later on.
 
 #### Serious Development
 
 When you want to more seriously develop an idea, either as its own application
-or as a thoroughly fleshed out library, you likely want to have access to all of
-the benefits of an IDE for debugging/static analysis. Unless you're working
-alone however, it can be critical to establish a common working environment
-during this process. There's lots of great IDE's out there, but we tend to use
-the JetBrains family (PyCharm/CLion)
+or as a thoroughly fleshed out library, you want to have access to all of the
+benefits of an IDE for debugging/static analysis. It can also be critical to
+establish a common and controlled working environment during this process,
+especially if you're working on a team. There's lots of great IDE's out there,
+but we tend to use the JetBrains family (PyCharm/CLion)
 
 #### Demonstration
 
@@ -55,17 +55,17 @@ server, or to distribute for other researchers to try, you'll need to make sure
 that the environment and all of its dependencies are also accounted for in that
 transfer. You also want to script literally everything such that you can reduce
 the process to a single line if possible (that single line can just call a few
-independent scripts in sequence). If you're deploying on a server, you don't
-necessarily have any interactivity with your training job, so you might need it
-to operate independently. For other researchers trying out your code, you really
-want to make sure that your setup script doesn't conflict with their unknown
-system as well.
+independent scripts in sequence). If you're deploying on a server, you might not
+have any interactivity with your training job, so you might need it to operate
+independently. For other researchers trying out your code, you really want to
+make sure that your setup script doesn't conflict with their unknown system as
+well.
 
 ## Tools
 
 Each of the motivating scenarios have tools that help resolve issues you might
 run into. We'll dive into the tools in more detail later in their own files, but
-the resulting recommendation is:
+my resulting recommendation is:
 
 Overall: Docker for general environment management (see `docker.md` for an
 overview).
@@ -86,7 +86,7 @@ For examples of some repos I like in this regard check out:
 ## Comments on the Examples
 
 The examples I provided assumed projects located elsewhere, but you can add the
-relevant Dockerfile or docker-compose.yml files to your own projects. So that
-they are contained within your project's version control. In that case, you may
+relevant Dockerfile or docker-compose.yml files to your own projects. They could
+then be contained within your project's version control. In that case, you may
 want to change some of the hardcoded options to environment variables so that
 your setup is more portable.
